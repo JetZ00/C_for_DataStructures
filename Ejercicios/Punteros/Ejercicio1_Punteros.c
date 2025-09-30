@@ -13,7 +13,7 @@ int main(){
 
   return 0;
   
-  // Direccion -> ptr o &x
-  // Valor ->     *ptr o x
+    // Direccion -> ptr o &x
+    // Valor ->     *ptr o x
 
 }
