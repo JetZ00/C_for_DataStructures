@@ -3,20 +3,23 @@
 #include <stdbool.h>
 #include <assert.h>
 
-typedef struct Node *ptrNode; // Alias para un puntero a la estructura
-typedef struct Node
-{
+typedef struct Node* ptrNode; // Alias para un puntero a la estructura
+typedef struct Node{
     int data;
     ptrNode next;
-} Node; // Alias para la estructura
+} Nodo; // Alias para la estructura
 
 /**
  * @brief Itera y muestra por pantalla la lista enlazada
  * @param head Puntero al primer nodo de la lista enlazada
  */
-void iterar(ptrNode head)
-{
-    ;
+void iterar(ptrNode head){
+    ptrNode aux = head;
+
+    while(aux!=NULL){
+        printf("%d",aux->data);
+        aux = aux->next;
+    }
 }
 
 /**
@@ -25,9 +28,39 @@ void iterar(ptrNode head)
  * @param data    Dato a insertar en el nodo
  * @return true si se insertó correctamente, false en caso contrario
  */
-bool insertar(ptrNode *ptrhead, int data)
-{
-    ;
+
+bool insertar(ptrNode* ptrhead, int data){
+
+    bool control = true;
+    ptrNode nueva = malloc(sizeof(Nodo));
+
+    nueva->data = data;
+    nueva->next = NULL;
+
+    // Si no se crea, el puntero valdrá NULL
+    if(nueva==NULL){
+        control = false;
+    }
+    
+    // ¿Pq me pasan el puntero del puntero? Si con el puntero me vale
+
+    // 2 casos: Lista Vacia o Lista con Elementos
+    if (*ptrhead == NULL){
+        *ptrhead = nueva;
+    } else{
+
+        ptrNode aux = *ptrhead;
+        ptrNode ultimo;
+
+        do{
+            ultimo = aux;
+            aux = aux->next;
+        } while(aux!=NULL);
+        
+        ultimo->next=nueva;
+    }
+
+    return control;
 }
 
 /**
@@ -36,9 +69,32 @@ bool insertar(ptrNode *ptrhead, int data)
  * @param data  Dato a eliminar del nodo
  * @return true si se eliminó correctamente, false en caso contrario
  */
-bool eliminar(ptrNode *ptrhead, int data)
-{
-    ;
+bool eliminar(ptrNode* ptrhead, int data){
+    bool eliminado = true;
+    ptrNode aux = *ptrhead;
+    ptrNode ant = NULL; // le meto NULL pq no puedo dejarlo vacio en caso de que ptrhead sea NULL y no se ejecute el bucle de abajo
+    ptrNode fut = NULL;
+
+    if (aux==NULL){
+        eliminado=false;
+    }
+
+    while(aux!=NULL){
+        if(data==aux->data){
+            if (ant==NULL){
+                *ptrhead = aux->next;
+            } else{
+                ant->next=fut;
+            }
+            free(aux);
+        }
+        // CUIDADO PUNTERO COLGANTE ----------------------------
+        ant= aux;
+        aux = aux->next;
+        fut = aux->next;
+    }
+
+    return eliminado;
 }
 
 /**

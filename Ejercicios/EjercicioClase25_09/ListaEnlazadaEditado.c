@@ -14,8 +14,8 @@ typedef struct Node
  * @brief Itera y muestra por pantalla la lista enlazada
  * @param head Puntero al primer nodo de la lista enlazada
  */
-void iterar(ptrNode head)
-{
+
+void iterar(ptrNode head){
     ptrNode aux;
     aux = head;
     while(aux!=NULL){

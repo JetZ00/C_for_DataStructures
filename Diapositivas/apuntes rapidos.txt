@@ -1,0 +1,35 @@
+/* PUNTEROS
+º
+º   - Direccion -> ptr o &x
+º   - Valor ->     *ptr o x
+º
+º   - Llamada a funcion por referencia/ptr:
+º        Debemos meter decl: void swap(int* p){}
+º                      llamada: swap(&a)
+º
+º   - Arrays y Ptr: array[] -> DIRECCION:
+º                              array = &array[0]
+º                              VALOR:
+º                              *(array+1) = a[1]
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+/* MEMORIA DINAMICA (Heap) -> Guarda tiempo que queramos
+º   Pila (Stack) -> Guarda temporal (Automatico de C)
+º
+º   - Nodo: Dato y Puntero
+º
+º    - malloc (Memory Allocation): -> Reserva de memoria
+º
+º      ptrNode new_node = malloc(sizeof(struct Node)); 
+º         |                                  |
+º      Puntero del Nodo                      |
+º      creado                                |
+º         |                                  |-------------------------------------| se convierte en Pepe /// luego "sizeof(Pepe)" es valido
+º         |                          typedef struct Node { int data; ptrNode next; } Pepe; <----------/
+ºtypedef struct Node* ptrNode;         
+º                                      
+º                                    
+º    - malloc (Memory Allocation): -> Reserva de memoria
+*/
