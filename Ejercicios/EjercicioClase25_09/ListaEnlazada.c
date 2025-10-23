@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -14,6 +15,7 @@ typedef struct Node{
  * @param head Puntero al primer nodo de la lista enlazada
  */
 void iterar(ptrNode head){
+    
     ptrNode aux = head;
 
     while(aux!=NULL){
@@ -37,14 +39,10 @@ bool insertar(ptrNode* ptrhead, int data){
     nueva->data = data;
     nueva->next = NULL;
 
-    // Si no se crea, el puntero valdrá NULL
     if(nueva==NULL){
         control = false;
     }
     
-    // ¿Pq me pasan el puntero del puntero? Si con el puntero me vale
-
-    // 2 casos: Lista Vacia o Lista con Elementos
     if (*ptrhead == NULL){
         *ptrhead = nueva;
     } else{
@@ -70,44 +68,122 @@ bool insertar(ptrNode* ptrhead, int data){
  * @return true si se eliminó correctamente, false en caso contrario
  */
 bool eliminar(ptrNode* ptrhead, int data){
-    bool eliminado = true;
+    bool eliminado = false;
     ptrNode aux = *ptrhead;
-    ptrNode ant = NULL; // le meto NULL pq no puedo dejarlo vacio en caso de que ptrhead sea NULL y no se ejecute el bucle de abajo
-    ptrNode fut = NULL;
+    ptrNode ant = NULL;
 
     if (aux==NULL){
         eliminado=false;
     }
 
     while(aux!=NULL){
+
         if(data==aux->data){
             if (ant==NULL){
                 *ptrhead = aux->next;
             } else{
-                ant->next=fut;
+                ant->next= aux->next;
             }
             free(aux);
+            eliminado = true;
+            break;
         }
-        // CUIDADO PUNTERO COLGANTE ----------------------------
-        ant= aux;
-        aux = aux->next;
-        fut = aux->next;
+
+        ant=aux;
+        aux=aux->next;
+        
     }
 
     return eliminado;
 }
 
+
 /**
  * @brief Destruye la lista enlazada
  * @param ptrhead Puntero al primer nodo de la lista enlazada. Al finalizar la función, ptrhead apuntará a NULL
  */
-void destruir(ptrNode *ptrhead)
-{
-    ;
+void destruir(ptrNode *ptrhead){
+    ptrNode aux;
+    aux= *ptrhead;
+
+    while(*ptrhead!= NULL){
+        *ptrhead=(*ptrhead)->next; // o tmb: *ptrhead=aux->next
+        free(aux);
+        aux=*ptrhead;
+    }
 }
 
-int main(void)
-{
+bool insertarOrdenado(ptrNode *ptrhead, int data) {
+
+                                        // string data
+                                        // strcmp(string1,string2) : Puede ser -1, 0, 1
+    ptrNode nuevo;
+    ptrNode anterior = NULL;
+    ptrNode actual = *ptrhead;
+
+    nuevo = malloc(sizeof(Nodo));
+    if (nuevo == NULL) {
+        return false; 
+    }
+    nuevo->data = data;
+
+    while (actual != NULL && actual->data < data) {
+        anterior = actual;
+        actual = actual->next;
+    }
+
+    if (anterior == NULL) { 
+        *ptrhead = nuevo;
+    } else {
+        anterior->next = nuevo;
+    }
+    nuevo->next = actual;
+    
+    return true;
+}
+
+// HIPOTETICO CASO QUE EN EL NODO: char[TAM] data;
+bool insertarOrdenadoString(ptrNode *ptrhead, char data[]) {
+
+
+    // strlen - Longitud del string
+    // strcpy - Copiar string
+    // strcmp -> Comparar string (+1 si String1>String2)
+
+    ptrNode nuevo;
+    ptrNode anterior = NULL;
+    ptrNode actual = *ptrhead;
+
+    nuevo = malloc(sizeof(Nodo));
+    if (nuevo == NULL) {
+        return false;
+    }
+
+    nuevo->data = malloc(strlen(data) + 1); 
+    if (nuevo->data == NULL) {
+        free(nuevo); // Liberamos el nodo si falla la memoria para el string
+        return false;
+    }
+    strcpy(nuevo->data, data);
+
+    while (actual != NULL && strcmp(actual->data, data) < 0) {
+        anterior = actual;
+        actual = actual->next;
+    }
+
+    if (anterior == NULL) {
+        *ptrhead = nuevo;
+    } else {
+        anterior->next = nuevo;
+    }
+    nuevo->next = actual;
+
+    return true;
+}
+
+
+
+int main(void){
     ptrNode head = NULL;
 
     // Primero probamos a usar las funciones con una lista NULL

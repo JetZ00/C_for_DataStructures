@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -6,6 +7,7 @@
 typedef struct Node *ptrNode; // Alias para un puntero a la estructura
 typedef struct Node
 {
+
     int data;
     ptrNode next;
 } Node; // Alias para la estructura
@@ -71,7 +73,7 @@ bool eliminar(ptrNode *ptrhead, int data)
         while((act != NULL) && (act->data != data) && (!eliminado)) {
             ant = act;
             act = act->next;
-    }
+        }
         
         if(act!=NULL){
             if(act==*ptrhead){ // ant==NULL
@@ -106,6 +108,9 @@ void destruir(ptrNode *ptrhead)
 }
 
 bool insertarOrdenado(ptrNode *ptrhead, int data) {
+
+                                        // string data
+                                        // strcmp(string1,string2) : Puede ser -1, 0, 1
     ptrNode nuevo;
     ptrNode anterior = NULL;
     ptrNode actual = *ptrhead;
