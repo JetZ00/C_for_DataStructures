@@ -115,8 +115,6 @@ void destruir(ptrNode *ptrhead){
 
 bool insertarOrdenado(ptrNode *ptrhead, int data) {
 
-                                        // string data
-                                        // strcmp(string1,string2) : Puede ser -1, 0, 1
     ptrNode nuevo;
     ptrNode anterior = NULL;
     ptrNode actual = *ptrhead;
